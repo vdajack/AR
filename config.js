@@ -5,13 +5,13 @@ const ARConfig = {
     // 3D Model Settings
     model: {
         // Primary model source (GLB/GLTF format recommended)
-        src: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+        src: "./models/TerracedScene.glb",
         
-        // Poster image (shown while loading)
-        poster: "https://modelviewer.dev/shared-assets/models/Astronaut.webp",
+        // Poster image (shown while loading) - optional, you can add your own
+        poster: "", // Add "./models/TerracedScene.jpg" if you have a poster image
         
         // Model description for accessibility
-        alt: "3D Model for AR viewing",
+        alt: "Terraced Scene 3D Model for AR viewing",
         
         // Scale factor (1.0 = original size)
         scale: "1 1 1",
@@ -102,11 +102,11 @@ const ARConfig = {
 
     // Performance Settings
     performance: {
-        // Enable progressive loading
-        reveal: "auto",
+        // Enable progressive loading for large models
+        reveal: "interaction",
         
-        // Loading strategy
-        loading: "eager", // or "lazy"
+        // Loading strategy - lazy for large files
+        loading: "lazy",
         
         // Animation mixing
         animationCrossfadeDuration: 300
@@ -114,12 +114,6 @@ const ARConfig = {
 
     // Custom Models Array (for multiple model support)
     customModels: [
-        {
-            name: "Astronaut",
-            src: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            poster: "https://modelviewer.dev/shared-assets/models/Astronaut.webp",
-            description: "Space Explorer"
-        },
         {
             name: "Robot",
             src: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb", 

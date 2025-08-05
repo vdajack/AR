@@ -121,8 +121,8 @@
         <!-- 3D Model Viewer with AR capabilities -->
         <model-viewer 
             id="model-viewer"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Model for AR viewing"
+            src="./models/TerracedScene.glb"
+            alt="Terraced Scene 3D Model for AR viewing"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
@@ -133,8 +133,8 @@
             exposure="1"
             shadow-intensity="1"
             environment-image="neutral"
-            poster="https://modelviewer.dev/shared-assets/models/Astronaut.webp"
-            loading="eager">
+
+            loading="lazy">
             
             <!-- AR button -->
             <button 
