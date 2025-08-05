@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR 3D Model Viewer</title>
+    
+    <!-- Import the model-viewer component -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+    <!-- Import configuration -->
+    <script src="config.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            background-color: #f5f5f5;
+        }
+
+        .ar-button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ar-button:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+        }
+
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+        }
+
+        .ar-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .ar-supported {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .ar-not-supported {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            model-viewer {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 AR Model Viewer</h1>
+        <p class="subtitle">Tap the AR button to view in your space</p>
+        
+        <!-- 3D Model Viewer with AR capabilities -->
+        <model-viewer 
+            id="model-viewer"
+            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+            alt="3D Model for AR viewing"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="1000"
+            rotation-per-second="40deg"
+            exposure="1"
+            shadow-intensity="1"
+            environment-image="neutral"
+            poster="https://modelviewer.dev/shared-assets/models/Astronaut.webp"
+            loading="eager">
+            
+            <!-- AR button -->
+            <button 
+                slot="ar-button" 
+                class="ar-button"
+                id="ar-button">
+                👁️ View in AR
+            </button>
+            
+            <!-- Loading indicator -->
+            <div slot="progress-bar" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; color: #666;">
+                Loading 3D Model...
+            </div>
+        </model-viewer>
+
+        <!-- AR Status -->
+        <div id="ar-status" class="ar-status"></div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <strong>How to use:</strong><br>
+            1. Tap "View in AR" button<br>
+            2. Point your camera at a flat surface<br>
+            3. Tap to place the 3D model<br>
+            4. Move around to view from different angles<br>
+            5. Pinch to resize (if supported)
+        </div>
+    </div>
+
+    <script>
+        // Check AR support and update status
+        const modelViewer = document.getElementById('model-viewer');
+        const arStatus = document.getElementById('ar-status');
+        const arButton = document.getElementById('ar-button');
+
+        // Function to check AR support
+        function checkARSupport() {
+            if (modelViewer.canActivateAR) {
+                arStatus.className = 'ar-status ar-supported';
+                arStatus.textContent = '✅ AR is supported on this device';
+                arButton.style.display = 'block';
+            } else {
+                arStatus.className = 'ar-status ar-not-supported';
+                arStatus.textContent = '❌ AR not supported on this device/browser';
+                arButton.style.display = 'none';
+            }
+        }
+
+        // Check AR support when model loads
+        modelViewer.addEventListener('load', checkARSupport);
+
+        // Also check immediately in case model is already loaded
+        if (modelViewer.loaded) {
+            checkARSupport();
+        }
+
+        // Add some interactivity
+        modelViewer.addEventListener('ar-status', (event) => {
+            if (event.detail.status === 'session-started') {
+                console.log('AR session started');
+            } else if (event.detail.status === 'object-placed') {
+                console.log('3D model placed in AR');
+            }
+        });
+
+        // Error handling
+        modelViewer.addEventListener('error', (error) => {
+            console.error('Model viewer error:', error);
+            arStatus.className = 'ar-status ar-not-supported';
+            arStatus.textContent = '⚠️ Error loading 3D model';
+        });
+
+        // Log when model is ready
+        modelViewer.addEventListener('load', () => {
+            console.log('3D model loaded successfully');
+        });
+    </script>
+</body>
+</html>

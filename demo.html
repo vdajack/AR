@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Demo - Multiple Models</title>
+    
+    <!-- Import the model-viewer component -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .model-card {
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: #4285f4;
+        }
+
+        .model-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .model-card p {
+            margin: 0 0 15px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+        }
+
+        .ar-button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .ar-button:hover {
+            background: #3367d6;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .qr-demo {
+            text-align: center;
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #4285f4;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .model-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 AR Model Demo Gallery</h1>
+        
+        <div class="model-grid">
+            <!-- Astronaut Model -->
+            <div class="model-card">
+                <h3>🚀 Astronaut</h3>
+                <p>Space explorer with realistic textures</p>
+                <model-viewer 
+                    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+                    alt="Astronaut 3D model"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="40deg"
+                    shadow-intensity="1"
+                    poster="https://modelviewer.dev/shared-assets/models/Astronaut.webp">
+                    
+                    <button slot="ar-button" class="ar-button">
+                        👁️ View in AR
+                    </button>
+                </model-viewer>
+            </div>
+
+            <!-- Robot Model -->
+            <div class="model-card">
+                <h3>🤖 Robot</h3>
+                <p>Animated robot with expressive features</p>
+                <model-viewer 
+                    src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb"
+                    alt="Robot 3D model"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="30deg"
+                    shadow-intensity="1"
+                    poster="https://modelviewer.dev/shared-assets/models/RobotExpressive.webp">
+                    
+                    <button slot="ar-button" class="ar-button">
+                        👁️ View in AR
+                    </button>
+                </model-viewer>
+            </div>
+
+            <!-- Sneaker Model -->
+            <div class="model-card">
+                <h3>👟 Nike Sneaker</h3>
+                <p>High-quality product visualization</p>
+                <model-viewer 
+                    src="https://modelviewer.dev/shared-assets/models/NikeAirZoom.glb"
+                    alt="Nike sneaker 3D model"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="20deg"
+                    shadow-intensity="1"
+                    poster="https://modelviewer.dev/shared-assets/models/NikeAirZoom.webp">
+                    
+                    <button slot="ar-button" class="ar-button">
+                        👁️ View in AR
+                    </button>
+                </model-viewer>
+            </div>
+        </div>
+
+        <div class="qr-demo">
+            <h3>📱 QR Code Demo</h3>
+            <p>Each model above can have its own QR code for direct AR access</p>
+            <div class="qr-placeholder">
+                QR Code<br>Goes Here
+            </div>
+            <p><small>Generate QR codes pointing to individual model URLs</small></p>
+        </div>
+
+        <div class="info-section">
+            <h3>🎯 How This Demo Works</h3>
+            
+            <h4>📋 Multiple AR Models:</h4>
+            <ul>
+                <li>Each model has its own viewer and AR button</li>
+                <li>Different rotation speeds and settings</li>
+                <li>Optimized for mobile AR viewing</li>
+            </ul>
+
+            <h4>🔗 QR Code Implementation:</h4>
+            <ul>
+                <li>Create separate pages for each model</li>
+                <li>Generate individual QR codes</li>
+                <li>Or use URL parameters to switch models dynamically</li>
+            </ul>
+
+            <h4>📱 AR Features:</h4>
+            <ul>
+                <li><strong>iOS:</strong> Uses Quick Look AR (works in Safari)</li>
+                <li><strong>Android:</strong> Uses Scene Viewer (works in Chrome)</li>
+                <li><strong>WebXR:</strong> Advanced AR on supported devices</li>
+            </ul>
+
+            <h4>🎨 Customization Options:</h4>
+            <ul>
+                <li>Model rotation speed and behavior</li>
+                <li>Camera controls and limits</li>
+                <li>Lighting and shadow settings</li>
+                <li>UI styling and branding</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>🚀 Next Steps</h3>
+            <ol>
+                <li><strong>Choose Your Model:</strong> Replace demo models with your own GLB files</li>
+                <li><strong>Deploy:</strong> Upload to GitHub Pages, Netlify, or Vercel</li>
+                <li><strong>Generate QR:</strong> Use the provided script with your deployment URL</li>
+                <li><strong>Test:</strong> Scan QR codes on mobile devices to verify AR works</li>
+                <li><strong>Share:</strong> Print QR codes or display them digitally</li>
+            </ol>
+            
+            <p><strong>📝 Files to customize:</strong></p>
+            <ul>
+                <li><code>index.html</code> - Main AR viewer</li>
+                <li><code>config.js</code> - Settings and model URLs</li>
+                <li><code>demo.html</code> - This multi-model demo (optional)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity to demo
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelViewers = document.querySelectorAll('model-viewer');
+            
+            modelViewers.forEach((viewer, index) => {
+                // Track AR interactions
+                viewer.addEventListener('ar-status', (event) => {
+                    console.log(`Model ${index + 1} AR status:`, event.detail.status);
+                });
+                
+                // Log when models finish loading
+                viewer.addEventListener('load', () => {
+                    console.log(`Model ${index + 1} loaded successfully`);
+                });
+                
+                // Handle errors
+                viewer.addEventListener('error', (error) => {
+                    console.error(`Model ${index + 1} error:`, error);
+                });
+            });
+        });
+        
+        // Simple function to demonstrate QR code generation concept
+        function generateQRForModel(modelName, modelUrl) {
+            console.log(`Generate QR for ${modelName}: ${window.location.origin}?model=${encodeURIComponent(modelUrl)}`);
+        }
+    </script>
+</body>
+</html>
